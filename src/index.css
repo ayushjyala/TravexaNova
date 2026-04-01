@@ -26,7 +26,7 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   min-height: 100vh;
-  /* Beautiful animated gradient background */
+  
   background: radial-gradient(circle at 15% 50%, rgba(20, 29, 46, 1), rgba(13, 17, 23, 1) 25%),
               radial-gradient(circle at 85% 30%, rgba(18, 32, 47, 1), rgba(13, 17, 23, 1) 25%);
   background-attachment: fixed;
@@ -38,13 +38,13 @@ body {
   min-height: 100vh;
 }
 
-/* Typography & Titles */
+
 h1, h2, h3 {
   font-weight: 600;
   letter-spacing: -0.02em;
 }
 
-/* Glassmorphism Utilities */
+
 .glass {
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
@@ -61,7 +61,7 @@ h1, h2, h3 {
   border-bottom: 1px solid var(--glass-border);
 }
 
-/* Header */
+
 .header {
   position: sticky;
   top: 0;
@@ -101,7 +101,7 @@ h1, h2, h3 {
   background: rgba(255, 255, 255, 0.1);
 }
 
-/* Main Content */
+
 .main-content {
   flex: 1;
   padding: 2rem;
@@ -138,14 +138,14 @@ h1, h2, h3 {
   animation: fadeIn 1s;
 }
 
-/* Grid Layout */
+
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 2rem;
 }
 
-/* Data Card Component */
+
 .card {
   display: flex;
   flex-direction: column;
@@ -244,7 +244,7 @@ h1, h2, h3 {
   transform: translateY(-2px);
 }
 
-/* State Handlers (Loading, Error, Blank) */
+
 .loading-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -292,7 +292,7 @@ h1, h2, h3 {
   box-shadow: 0 0 15px var(--accent-glow);
 }
 
-/* Footer */
+
 .footer {
   text-align: center;
   padding: 1.5rem;
@@ -301,7 +301,7 @@ h1, h2, h3 {
   margin-top: auto;
 }
 
-/* Animations */
+
 @keyframes fadeInDown {
   from { opacity: 0; transform: translateY(-20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -322,7 +322,7 @@ h1, h2, h3 {
   100% { background-position: -200% 0; }
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
   .header {
     flex-direction: column;

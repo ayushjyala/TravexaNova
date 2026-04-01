@@ -8,12 +8,11 @@ function App() {
   const { data, loading, error } = useFetch(API_URL);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Prepare filtered data based on search
   const filteredData = data
     ? data
         .filter((country) => country.name.common.toLowerCase().includes(searchTerm.toLowerCase()))
         .sort((a, b) => b.population - a.population)
-        .slice(0, 50) // Show top 50 by population or matching search
+        .slice(0, 50)
     : [];
 
   return (
