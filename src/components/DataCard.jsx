@@ -1,30 +1,21 @@
 import React from 'react';
 
-const DataCard = ({ flagUrl, name, capital, region, population }) => {
+function DataCard(props) {
   return (
-    <div className="card glass">
-      <div className="card-image-container">
-        <img src={flagUrl} alt={`${name} flag`} className="card-image" loading="lazy" />
-      </div>
-      <div className="card-content">
-        <h3 className="card-title">{name}</h3>
-        <p className="card-subtitle">{capital && capital.length > 0 ? capital[0] : 'No Capital'}</p>
-        
-        <div className="card-details">
-          <div className="detail-item">
-            <span className="detail-icon">🌍</span>
-            <span className="detail-text">{region}</span>
-          </div>
-          <div className="detail-item">
-            <span className="detail-icon">👥</span>
-            <span className="detail-text">{population.toLocaleString()}</span>
-          </div>
-        </div>
-        
-        <button className="card-btn">Explore Destination</button>
+    <div className="card">
+      <img src={props.landscapeUrl} alt="landscape view" className="main-image" />
+      <div className="card-info">
+        <h2>
+          {props.name} 
+          <img src={props.flag} alt="flag" width="40" className="flag-icon" />
+        </h2>
+        <p><strong>Capital:</strong> {props.capital}</p>
+        <p><strong>Region:</strong> {props.region}</p>
+        <p><strong>Population:</strong> {props.population}</p>
+        <button onClick={() => alert("Welcome to " + props.name)}>Visit {props.name}</button>
       </div>
     </div>
   );
-};
+}
 
 export default DataCard;

@@ -1,94 +1,71 @@
-import React, { useState } from 'react';
-import useFetch from './hooks/useFetch';
+import React, { useState, useEffect } from 'react';
 import DataCard from './components/DataCard';
 
-const API_URL = 'https://restcountries.com/v3.1/all?fields=name,capital,region,population,flags';
-
 function App() {
-  const { data, loading, error } = useFetch(API_URL);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredData = data
-    ? data
-        .filter((country) => country.name.common.toLowerCase().includes(searchTerm.toLowerCase()))
-        .sort((a, b) => b.population - a.population)
-        .slice(0, 50)
-    : [];
+  useEffect(() => {
+    fetch('https://restcountries.com/v3.1/all?fields=name,capital,region,population,flags')
+      .then((response) => response.json())
+      .then((apiData) => {
+        setData(apiData);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError(error.message);
+        setLoading(false);
+      });
+  }, []);
+
+  const filteredData = data.filter((country) => {
+    return country.name.common.toLowerCase().includes(searchTerm.toLowerCase());
+  }).slice(0, 50);
+
+  const getKeywords = (countryName) => {
+    const name = countryName.toLowerCase();
+    if (name === 'india' || name === 'nepal') return 'mountains';
+    if (name === 'china' || name === 'usa') return 'skyscrapers';
+    if (name === 'maldives') return 'beach';
+    return 'landscape';
+  };
 
   return (
-    <div className="app-container">
-      <header className="header glass-nav">
-        <div className="logo">
-          <h1>🌍 TravexaNova</h1>
-        </div>
-        <div className="search-container">
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Search destinations..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-      </header>
+    <div className="container">
+      <h1>Travel Destinations</h1>
       
-      <main className="main-content">
-        <div className="hero-section">
-          <h2 className="hero-title">Discover Your Next Adventure</h2>
-          <p className="hero-subtitle">Real-time data for destinations around the globe.</p>
-        </div>
+      <div className="search-box">
+        <input 
+          type="text" 
+          placeholder="Search country..." 
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
 
-        {error && (
-          <div className="error-container glass">
-            <h3>⚠️ Something went wrong</h3>
-            <p>{error}</p>
-            <button className="retry-btn" onClick={() => window.location.reload()}>Retry</button>
-          </div>
-        )}
+      {loading && <p>Loading data...</p>}
+      {error && <p>Error: {error}</p>}
 
-        {loading && (
-          <div className="loading-grid">
-            {[...Array(8)].map((_, i) => (
-              <div key={i} className="skeleton-card glass">
-                <div className="skeleton skeleton-image"></div>
-                <div className="skeleton skeleton-title"></div>
-                <div className="skeleton skeleton-text"></div>
-                <div className="skeleton skeleton-text short"></div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {!loading && !error && (
-          <>
-            <div className="results-info">
-              <p>Showing <strong>{filteredData.length}</strong> stunning destinations</p>
-            </div>
-            {filteredData.length > 0 ? (
-              <div className="card-grid">
-                {filteredData.map((country, index) => (
-                  <DataCard
-                    key={index}
-                    flagUrl={country.flags.png || country.flags.svg}
-                    name={country.name.common}
-                    capital={country.capital}
-                    region={country.region}
-                    population={country.population}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="no-results glass">
-                <p>No destinations found for "{searchTerm}"</p>
-              </div>
-            )}
-          </>
-        )}
-      </main>
-      
-      <footer className="footer glass-nav">
-        <p>&copy; {new Date().getFullYear()} TravexaNova. Powered by REST Countries API.</p>
-      </footer>
+      <div className="card-container">
+        {!loading && !error && filteredData.map((country, index) => {
+          // create picture url
+          let landscapeUrl = "https://loremflickr.com/300/200/" + encodeURIComponent(country.name.common) + "," + getKeywords(country.name.common) + "/all";
+          
+          return (
+            <DataCard 
+              key={index}
+              name={country.name.common}
+              capital={country.capital && country.capital.length > 0 ? country.capital[0] : "None"}
+              region={country.region}
+              population={country.population}
+              flag={country.flags.png || country.flags.svg}
+              landscapeUrl={landscapeUrl}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }
