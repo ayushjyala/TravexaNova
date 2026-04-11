@@ -533,5 +533,38 @@ function renderCompare() {
     lucide.createIcons();
 }
 
+// 12. Navbar & Additional Modals
+const navMyTrips = document.getElementById('navMyTrips');
+const navAbout = document.getElementById('navAbout');
+const signUpBtn = document.getElementById('signUpBtn');
+const authModal = document.getElementById('authModal');
+const aboutModal = document.getElementById('aboutModal');
+const closeAuth = document.getElementById('closeAuth');
+const closeAbout = document.getElementById('closeAbout');
+
+navMyTrips.addEventListener('click', () => {
+    // If a destination is already selected, it shows the saved trips in the sidebar.
+    // For a better UX, we can scroll to the saved trips section.
+    document.getElementById('savedTrips').scrollIntoView({ behavior: 'smooth' });
+});
+
+navAbout.addEventListener('click', () => {
+    aboutModal.classList.remove('hidden');
+});
+
+signUpBtn.addEventListener('click', () => {
+    authModal.classList.remove('hidden');
+});
+
+closeAuth.addEventListener('click', () => authModal.classList.add('hidden'));
+closeAbout.addEventListener('click', () => aboutModal.classList.add('hidden'));
+
+// Close modals on outside click
+window.addEventListener('click', (e) => {
+    if (e.target === authModal) authModal.classList.add('hidden');
+    if (e.target === aboutModal) aboutModal.classList.add('hidden');
+    if (e.target === compareModal) compareModal.classList.add('hidden');
+});
+
 // Init
 initTheme();

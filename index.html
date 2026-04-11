@@ -54,10 +54,10 @@
         </div>
         
         <div class="hidden md:flex items-center gap-8 font-medium">
-            <a href="#" class="hover:text-primary transition-colors">Explorer</a>
-            <a href="#" class="hover:text-primary transition-colors">My Trips</a>
-            <a href="#" class="hover:text-primary transition-colors">Deals</a>
-            <a href="#" class="hover:text-primary transition-colors">About</a>
+            <a href="#emptyState" class="nav-link hover:text-primary transition-colors">Explorer</a>
+            <button id="navMyTrips" class="nav-link hover:text-primary transition-colors">My Trips</button>
+            <a href="#dealsSection" class="nav-link hover:text-primary transition-colors">Deals</a>
+            <button id="navAbout" class="nav-link hover:text-primary transition-colors">About</button>
         </div>
 
         <div class="flex items-center gap-4">
@@ -65,8 +65,8 @@
                 <i data-lucide="sun" id="sunIcon" class="hidden"></i>
                 <i data-lucide="moon" id="moonIcon"></i>
             </button>
-            <button class="bg-primary text-white px-5 py-2 rounded-full font-semibold hover:bg-emerald-600 transition-all shadow-lg shadow-primary/20">
-                Sign In
+            <button id="signUpBtn" class="bg-primary text-white px-5 py-2 rounded-full font-semibold hover:bg-emerald-600 transition-all shadow-lg shadow-primary/20">
+                Sign Up
             </button>
         </div>
     </nav>
@@ -296,7 +296,90 @@
         <span class="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300 whitespace-nowrap font-bold">Compare Trips</span>
     </button>
 
-    <!-- Scripts -->
+    <!-- Deals Section -->
+    <section id="dealsSection" class="py-20 bg-slate-100 dark:bg-slate-900/50">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-black mb-4">Limited Time <span class="text-primary">Deals</span></h2>
+            <p class="text-slate-500 mb-12">Handpicked adventures at prices you'll love.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass p-8 rounded-3xl relative overflow-hidden group">
+                    <div class="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold ring-4 ring-white dark:ring-slate-900">-40% OFF</div>
+                    <h3 class="text-xl font-bold mb-2">Greek Islands</h3>
+                    <p class="text-slate-500 text-sm mb-6">7 Days exploring Santorini & Mykonos.</p>
+                    <button class="text-primary font-bold hover:underline">View Deal →</button>
+                </div>
+                <div class="glass p-8 rounded-3xl relative overflow-hidden group border-primary shadow-xl scale-105">
+                    <div class="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-xs font-bold ring-4 ring-white dark:ring-slate-900">BEST VALUE</div>
+                    <h3 class="text-xl font-bold mb-2">Swiss Alps</h3>
+                    <p class="text-slate-500 text-sm mb-6">5 Days luxury stay in Zermatt.</p>
+                    <button class="text-primary font-bold hover:underline">View Deal →</button>
+                </div>
+                <div class="glass p-8 rounded-3xl relative overflow-hidden group">
+                    <div class="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold ring-4 ring-white dark:ring-slate-900">-25% OFF</div>
+                    <h3 class="text-xl font-bold mb-2">Kyoto Zen</h3>
+                    <p class="text-slate-500 text-sm mb-6">4 Days temple tours & tea sessions.</p>
+                    <button class="text-primary font-bold hover:underline">View Deal →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sign Up Modal -->
+    <div id="authModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div class="glass-heavy rounded-3xl w-full max-w-md p-8 relative animate-fade-in text-slate-800 dark:text-slate-100">
+            <button id="closeAuth" class="absolute top-6 right-6 p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full">
+                <i data-lucide="x"></i>
+            </button>
+            <h2 class="text-3xl font-black mb-2">Join TripSync</h2>
+            <p class="text-slate-500 text-sm mb-8">Start your next adventure with a free account.</p>
+            
+            <form class="space-y-4" onsubmit="event.preventDefault(); alert('Success! You are now part of TripSync.'); document.getElementById('authModal').classList.add('hidden');">
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Full Name</label>
+                    <input type="text" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-xl p-3 focus:ring-2 focus:ring-primary outline-none" placeholder="John Doe">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Email Address</label>
+                    <input type="email" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-xl p-3 focus:ring-2 focus:ring-primary outline-none" placeholder="john@example.com">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Password</label>
+                    <input type="password" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-xl p-3 focus:ring-2 focus:ring-primary outline-none" placeholder="••••••••">
+                </div>
+                <button type="submit" class="w-full py-4 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/20 hover:scale-[1.02] transition-all">
+                    Create Account
+                </button>
+            </form>
+            <p class="text-center text-xs mt-6 text-slate-400">Already have an account? <span class="text-primary font-bold cursor-pointer">Log In</span></p>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div id="aboutModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div class="glass-heavy rounded-3xl w-full max-w-lg p-10 relative animate-fade-in text-slate-800 dark:text-slate-100 text-center">
+            <button id="closeAbout" class="absolute top-6 right-6 p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="bg-primary/10 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <i data-lucide="plane" class="text-primary w-10 h-10"></i>
+            </div>
+            <h2 class="text-3xl font-black mb-4">About TripSync</h2>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8">
+                TripSync is a smart travel management system designed to make trip planning effortless. Using live data, smart filtering, and dynamic itineraries, we help you focus on the journey, not the logistics.
+            </p>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl">
+                    <p class="text-2xl font-black text-primary">10k+</p>
+                    <p class="text-[10px] text-slate-400 uppercase font-bold">Trips Planned</p>
+                </div>
+                <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl">
+                    <p class="text-2xl font-black text-secondary">50+</p>
+                    <p class="text-[10px] text-slate-400 uppercase font-bold">Destinations</p>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="js/data.js"></script>
     <script src="js/api.js"></script>
     <script src="js/app.js"></script>
