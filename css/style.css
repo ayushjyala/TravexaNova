@@ -1,0 +1,67 @@
+/* Custom Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+#appContent section {
+    animation: fadeIn 0.6s ease-out backwards;
+}
+
+#appContent section:nth-child(1) { animation-delay: 0.1s; }
+#appContent section:nth-child(2) { animation-delay: 0.2s; }
+#appContent section:nth-child(3) { animation-delay: 0.3s; }
+
+/* Custom Range Input Styling */
+input[type=range]::-webkit-slider-thumb {
+    @apply w-5 h-5 bg-primary border-4 border-white dark:border-slate-900 rounded-full shadow-lg appearance-none cursor-pointer hover:scale-110 transition-transform;
+}
+
+/* Glassmorphism utility classes */
+.glass-heavy {
+    @apply bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-white/30 dark:border-slate-700/50 shadow-2xl;
+}
+
+/* Active Tab Indicator Micro-animation */
+.tab-btn {
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    @apply bg-primary;
+    animation: slideInRight 0.3s ease-out;
+}
+
+/* Scroll Snap for Horizontal Tabs */
+.tabs-container {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.tabs-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Button Hover Effects */
+button:active {
+    transform: scale(0.95);
+}
+
+.budget-btn.active {
+    @apply bg-primary text-white border-primary shadow-lg shadow-primary/20 scale-[1.02];
+}
