@@ -72,6 +72,8 @@ const renderDestinations = (destinations) => {
 
   destinationsContainer.innerHTML = destinations.map(dest => {
     const isFav = favorites.includes(dest.name.common);
+    // Escape single quotes for data attributes if needed
+    const countryName = dest.name.common.replace(/'/g, "&#39;");
     return `
       <div class="destination-card">
         <div class="card-img-container">
@@ -93,8 +95,8 @@ const renderDestinations = (destinations) => {
           </div>
           
           <div class="card-actions">
-            <button class="btn-view" onclick="alert('Viewing details for ${dest.name.common}!')">View More</button>
-            <button class="btn-fav ${isFav ? 'active' : ''}" onclick="toggleFavorite('${dest.name.common.replace(/'/g, "\\'")}')" aria-label="Favorite">
+            <button class="btn-view" data-country="${countryName}">View More</button>
+            <button class="btn-fav ${isFav ? 'active' : ''}" data-country="${countryName}" aria-label="Favorite">
               <i class="fa-${isFav ? 'solid' : 'regular'} fa-heart"></i>
             </button>
           </div>
@@ -106,7 +108,7 @@ const renderDestinations = (destinations) => {
 
 // 4. Interactive Features: Search, Filter, Sort using Higher-Order Functions
 const applyFiltersAndSort = () => {
-  const searchTerm = searchInput.value.toLowerCase();
+  const searchTerm = searchInput.value.toLowerCase().trim();
   const regionValue = regionFilter.value;
   const sortValue = sortSelect.value;
   
@@ -119,7 +121,7 @@ const applyFiltersAndSort = () => {
 
   // Sorting using Array.prototype.sort
   if (sortValue !== 'default') {
-    // We create a new array copy using map/spread so we don't mutate the original if we don't want to
+    // We create a new array copy using map/spread so we don't mutate the original
     filtered = [...filtered].sort((a, b) => {
       switch (sortValue) {
         case 'name-asc':
@@ -140,9 +142,21 @@ const applyFiltersAndSort = () => {
   renderDestinations(currentDestinations);
 };
 
-// 5. Favorite Button Logic
-// Since we are setting onclick inline, toggleFavorite needs to be globally accessible
-window.toggleFavorite = (countryName) => {
+// 5. Event Delegation for Action Buttons
+destinationsContainer.addEventListener('click', (event) => {
+  const favBtn = event.target.closest('.btn-fav');
+  const viewBtn = event.target.closest('.btn-view');
+  
+  if (favBtn) {
+    const countryName = favBtn.getAttribute('data-country').replace(/&#39;/g, "'");
+    toggleFavorite(countryName);
+  } else if (viewBtn) {
+    const countryName = viewBtn.getAttribute('data-country').replace(/&#39;/g, "'");
+    alert(`Viewing details for ${countryName}!`);
+  }
+});
+
+const toggleFavorite = (countryName) => {
   // Use filter to remove, or spread to add
   if (favorites.includes(countryName)) {
     favorites = favorites.filter(fav => fav !== countryName);
