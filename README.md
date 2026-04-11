@@ -28,19 +28,24 @@ This project fulfills the milestone goals by combining API data with dynamic, in
 ## 🛠️ Technologies Involved
 * **HTML5:** Semantic structure emphasizing accessibility.
 * **CSS3:** Advanced styling using CSS Variables, Grid/Flexbox, Glassmorphism techniques, and responsive media queries. FontAwesome is used for icons.
-* **Vanilla JavaScript (ES6+):** Utilized for Fetch API integration, DOM manipulation, and dynamic array handling without primitive loops.
+* **Vanilla JavaScript (ES6+):** Utilized for Fetch API integration, DOM manipulation, and dynamic array handling without primitive loops. Event delegation is utilized for efficient DOM event handling.
 
 ## 🚀 Setup & Execution Instructions
 Because this project relies strictly on Vanilla HTML, CSS, and JS, setting it up is incredibly straightforward:
 
 1. **Clone the repository** (or download the source files):
    ```bash
-   git clone <repository_url>
+   git clone https://github.com/ayushjyala/TravexaNova.git
    cd TravexaNova
    ```
-2. **Run the Project:**
-   Since there are no build steps (No Node.js/React setup required), simply open the `index.html` file in your preferred web browser. 
+2. **Run the Project Local:**
+   Since there are no build steps (no Node.js/React setup required), simply open the `index.html` file in your preferred web browser. 
    - **Tip:** If you use VS Code, you can right-click `index.html` and select **"Open with Live Server"** to view changes in real-time.
+
+## 🌍 Live Deployment
+The project is officially deployed and accessible online via GitHub Pages.
+
+**[Launch TravexaNova Live Demo](https://ayushjyala.github.io/TravexaNova/)**
 
 ---
 *Developed for the Travel Planning Application Assignment.*
