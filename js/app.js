@@ -444,7 +444,7 @@ document.getElementById('downloadPdfBtn').addEventListener('click', () => {
     const element = document.getElementById('appContent');
     const opt = {
         margin: 1,
-        filename: `TripSync_${appState.currentDestination.name}.pdf`,
+        filename: `TravexaNova_${appState.currentDestination.name}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2 },
         jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
