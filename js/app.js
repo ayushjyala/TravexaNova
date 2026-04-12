@@ -5,7 +5,8 @@ let appState = {
     duration: 3,
     activeTab: 'itinerary',
     isDarkMode: localStorage.getItem('theme') === 'dark',
-    savedTrips: JSON.parse(localStorage.getItem('savedTrips') || '[]')
+    savedTrips: JSON.parse(localStorage.getItem('savedTrips') || '[]'),
+    user: JSON.parse(localStorage.getItem('user') || 'null')
 };
 
 // Initialize Lucide Icons
@@ -21,6 +22,8 @@ const tabView = document.getElementById('tabContent');
 const durationSlider = document.getElementById('durationSlider');
 const durationVal = document.getElementById('durationVal');
 const themeToggle = document.getElementById('themeToggle');
+const authContainer = document.getElementById('authContainer');
+const authForm = document.getElementById('authForm');
 
 // 1. Theme Logic
 function initTheme() {
@@ -566,5 +569,83 @@ window.addEventListener('click', (e) => {
     if (e.target === compareModal) compareModal.classList.add('hidden');
 });
 
+// 13. Authentication Logic
+function toggleAuthUI() {
+    if (appState.user) {
+        authContainer.innerHTML = `
+            <button id="themeToggle" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-full transition-colors">
+                <i data-lucide="sun" id="sunIcon" class="${!appState.isDarkMode ? 'hidden' : ''}"></i>
+                <i data-lucide="moon" id="moonIcon" class="${appState.isDarkMode ? 'hidden' : ''}"></i>
+            </button>
+            <div class="flex items-center gap-3 bg-slate-100 dark:bg-slate-800 py-1 pl-1 pr-4 rounded-full border border-slate-200 dark:border-slate-700">
+                <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs">
+                    ${appState.user.name.charAt(0).toUpperCase()}
+                </div>
+                <span class="text-xs font-bold hidden sm:block">${appState.user.name.split(' ')[0]}</span>
+                <button id="logoutBtn" class="text-slate-400 hover:text-red-500 transition-colors ml-2">
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                </button>
+            </div>
+        `;
+        
+        // Re-attach theme toggle listener since we replaced the HTML
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            appState.isDarkMode = !appState.isDarkMode;
+            document.documentElement.classList.toggle('dark');
+            document.getElementById('sunIcon').classList.toggle('hidden');
+            document.getElementById('moonIcon').classList.toggle('hidden');
+            localStorage.setItem('theme', appState.isDarkMode ? 'dark' : 'light');
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', logout);
+    } else {
+        authContainer.innerHTML = `
+            <button id="themeToggle" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-full transition-colors">
+                <i data-lucide="sun" id="sunIcon" class="${!appState.isDarkMode ? 'hidden' : ''}"></i>
+                <i data-lucide="moon" id="moonIcon" class="${appState.isDarkMode ? 'hidden' : ''}"></i>
+            </button>
+            <button id="signUpBtn" class="bg-primary text-white px-5 py-2 rounded-full font-semibold hover:bg-emerald-600 transition-all shadow-lg shadow-primary/20">
+                Sign Up
+            </button>
+        `;
+
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            appState.isDarkMode = !appState.isDarkMode;
+            document.documentElement.classList.toggle('dark');
+            document.getElementById('sunIcon').classList.toggle('hidden');
+            document.getElementById('moonIcon').classList.toggle('hidden');
+            localStorage.setItem('theme', appState.isDarkMode ? 'dark' : 'light');
+        });
+
+        document.getElementById('signUpBtn').addEventListener('click', () => {
+            authModal.classList.remove('hidden');
+        });
+    }
+    lucide.createIcons();
+}
+
+function handleSignUp(e) {
+    e.preventDefault();
+    const name = document.getElementById('signupName').value;
+    const email = document.getElementById('signupEmail').value;
+    
+    if (name && email) {
+        appState.user = { name, email };
+        localStorage.setItem('user', JSON.stringify(appState.user));
+        authModal.classList.add('hidden');
+        toggleAuthUI();
+        alert(`Welcome abroad, ${name}! Your TravexaNova account is ready.`);
+    }
+}
+
+function logout() {
+    appState.user = null;
+    localStorage.removeItem('user');
+    toggleAuthUI();
+}
+
+authForm.addEventListener('submit', handleSignUp);
+
 // Init
 initTheme();
+toggleAuthUI();
